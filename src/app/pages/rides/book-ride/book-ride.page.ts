@@ -37,6 +37,7 @@ import {
   AlertController,
   ToastController
 } from '@ionic/angular/standalone';
+import { firstValueFrom } from 'rxjs';
 import { addIcons } from 'ionicons';
 import {
   locationOutline,
@@ -57,6 +58,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MapsService, Location, RouteInfo } from '../../../core/services/maps.service';
 import { MapsMockService } from '../../../core/services/maps-mock.service';
 import { AuthService, User } from '../../../core/services/auth.service';
+import { RideService } from '../../../core/services/ride.service';
 import { environment } from '../../../../environments/environment';
 
 export interface VehicleOption {
@@ -199,6 +201,7 @@ export class BookRidePage implements OnInit, AfterViewInit, OnDestroy {
     private mapsService: MapsService,
     private mapsMockService: MapsMockService,
     private authService: AuthService,
+    private rideService: RideService,
     private router: Router,
     private loadingController: LoadingController,
     private alertController: AlertController,
@@ -449,11 +452,8 @@ export class BookRidePage implements OnInit, AfterViewInit, OnDestroy {
         route: this.routeInfo || undefined
       };
 
-      // TODO: Call booking API
-      console.log('Booking data:', bookingData);
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const ride = await firstValueFrom(this.rideService.createRide(bookingData));
+      console.log('Ride created:', ride);
 
       await loading.dismiss();
 
