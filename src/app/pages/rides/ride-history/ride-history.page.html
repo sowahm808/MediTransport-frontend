@@ -1,2 +1,26 @@
-<ion-header><ion-toolbar color="primary"><ion-title>Ride History</ion-title></ion-toolbar></ion-header>
-<ion-content><div style="padding: 1rem;"><ion-card><ion-card-header><ion-card-title>Your Ride History</ion-card-title></ion-card-header><ion-card-content>Ride history features coming soon!</ion-card-content></ion-card></div></ion-content>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Ride History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="rides.length > 0">
+    <ion-item button *ngFor="let ride of rides" (click)="viewRide(ride.id)">
+      <ion-label>
+        <h3>{{ ride.pickupLocation.address }} → {{ ride.dropoffLocation.address }}</h3>
+        <p>{{ ride.scheduledTime | date:'short' }}</p>
+      </ion-label>
+      <ion-badge slot="end" [color]="getStatusColor(ride.status)">{{ ride.status }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-card *ngIf="rides.length === 0" class="empty-card">
+    <ion-card-header>
+      <ion-card-title>No rides found</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      You have not booked any rides yet.
+    </ion-card-content>
+  </ion-card>
+</ion-content>
