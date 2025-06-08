@@ -1,0 +1,176 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Sign In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-container">
+    <!-- Logo/Header Section -->
+    <div class="login-header">
+      <div class="logo-container">
+        <ion-icon name="medical-outline" size="large" color="primary"></ion-icon>
+      </div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to your MediTransport account</p>
+    </div>
+
+    <!-- Main Login Form -->
+    <ion-card class="login-card">
+      <ion-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <!-- Email Field -->
+          <ion-item
+            lines="full"
+            [class.ion-invalid]="isFieldInvalid('email')"
+            [class.ion-valid]="loginForm.get('email')?.valid && loginForm.get('email')?.touched">
+            <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
+            <ion-label position="stacked">Email Address</ion-label>
+            <ion-input
+              formControlName="email"
+              type="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              [clear-input]="true">
+            </ion-input>
+          </ion-item>
+
+          <!-- Email Error Message -->
+          <div class="error-message" *ngIf="isFieldInvalid('email')">
+            <ion-text color="danger">
+              <small>{{ getFieldError('email') }}</small>
+            </ion-text>
+          </div>
+
+          <!-- Password Field -->
+          <ion-item
+            lines="full"
+            [class.ion-invalid]="isFieldInvalid('password')"
+            [class.ion-valid]="loginForm.get('password')?.valid && loginForm.get('password')?.touched">
+            <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
+            <ion-label position="stacked">Password</ion-label>
+            <ion-input
+              formControlName="password"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Enter your password"
+              autocomplete="current-password">
+            </ion-input>
+            <ion-button
+              fill="clear"
+              slot="end"
+              (click)="togglePasswordVisibility()"
+              type="button">
+              <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <!-- Password Error Message -->
+          <div class="error-message" *ngIf="isFieldInvalid('password')">
+            <ion-text color="danger">
+              <small>{{ getFieldError('password') }}</small>
+            </ion-text>
+          </div>
+
+          <!-- Remember Me & Forgot Password -->
+          <div class="form-options">
+            <ion-item lines="none" class="remember-me">
+              <ion-checkbox
+                [(ngModel)]="rememberMe"
+                [ngModelOptions]="{standalone: true}"
+                color="primary">
+              </ion-checkbox>
+              <ion-label class="ion-margin-start">Remember me</ion-label>
+            </ion-item>
+
+            <ion-button
+              fill="clear"
+              size="small"
+              (click)="forgotPassword()"
+              type="button">
+              Forgot Password?
+            </ion-button>
+          </div>
+
+          <!-- Login Button -->
+          <ion-button
+            expand="block"
+            type="submit"
+            [disabled]="isLoading"
+            class="login-button">
+            <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+            <span *ngIf="!isLoading">Sign In</span>
+            <span *ngIf="isLoading">Signing In...</span>
+          </ion-button>
+
+          <!-- Demo Quick Login Section (Development Only) -->
+          <div class="demo-section" *ngIf="!isLoading">
+            <ion-text color="medium">
+              <p class="demo-title">Quick Demo Login:</p>
+            </ion-text>
+
+            <ion-grid class="demo-buttons">
+              <ion-row>
+                <ion-col size="4">
+                  <ion-button
+                    fill="outline"
+                    size="small"
+                    expand="block"
+                    (click)="quickLoginPatient()"
+                    type="button">
+                    Patient
+                  </ion-button>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-button
+                    fill="outline"
+                    size="small"
+                    expand="block"
+                    (click)="quickLoginDriver()"
+                    type="button">
+                    Driver
+                  </ion-button>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-button
+                    fill="outline"
+                    size="small"
+                    expand="block"
+                    (click)="quickLoginAdmin()"
+                    type="button">
+                    Admin
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Register Link -->
+    <div class="register-link">
+      <ion-text color="medium">
+        <p>
+          Don't have an account?
+          <ion-button
+            fill="clear"
+            size="small"
+            (click)="navigateToRegister()"
+            type="button">
+            Sign Up
+          </ion-button>
+        </p>
+      </ion-text>
+    </div>
+
+    <!-- Additional Info -->
+    <div class="additional-info">
+      <ion-text color="medium">
+        <p class="info-text">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          Your data is secure and encrypted
+        </p>
+      </ion-text>
+    </div>
+  </div>
+</ion-content>
