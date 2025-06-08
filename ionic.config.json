@@ -1,0 +1,8 @@
+{
+  "name": "MediTransport",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "meditransport"
+}
