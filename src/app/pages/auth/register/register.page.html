@@ -1,0 +1,327 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Create Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="register-container">
+    <!-- Header Section -->
+    <div class="register-header">
+      <div class="logo-container">
+        <ion-icon name="medical-outline" size="large" color="primary"></ion-icon>
+      </div>
+      <h1>Join MediTransport</h1>
+      <p>Create your account to get started</p>
+    </div>
+
+    <!-- Role Selection -->
+    <ion-card class="role-selection-card">
+      <ion-card-header>
+        <ion-card-title>I am a...</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-segment
+          [value]="selectedRole"
+          (ionChange)="onRoleChange($event)"
+          color="primary">
+          <ion-segment-button value="patient">
+            <ion-icon [name]="getRoleIcon('patient')"></ion-icon>
+            <ion-label>Patient</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="driver">
+            <ion-icon [name]="getRoleIcon('driver')"></ion-icon>
+            <ion-label>Driver</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="admin">
+            <ion-icon [name]="getRoleIcon('admin')"></ion-icon>
+            <ion-label>Admin</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <div class="role-description">
+          <ion-text color="medium">
+            <p>{{ getRoleDescription(selectedRole) }}</p>
+          </ion-text>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Registration Form -->
+    <ion-card class="register-card">
+      <ion-card-content>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <!-- Personal Information Section -->
+          <div class="form-section">
+            <h3>Personal Information</h3>
+
+            <!-- Full Name -->
+            <ion-item
+              lines="full"
+              [class.ion-invalid]="isFieldInvalid('name')"
+              [class.ion-valid]="registerForm.get('name')?.valid && registerForm.get('name')?.touched">
+              <ion-icon name="person-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="stacked">Full Name *</ion-label>
+              <ion-input
+                formControlName="name"
+                type="text"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                [clear-input]="true">
+              </ion-input>
+            </ion-item>
+            <div class="error-message" *ngIf="isFieldInvalid('name')">
+              <ion-text color="danger">
+                <small>{{ getFieldError('name') }}</small>
+              </ion-text>
+            </div>
+
+            <!-- Email -->
+            <ion-item
+              lines="full"
+              [class.ion-invalid]="isFieldInvalid('email')"
+              [class.ion-valid]="registerForm.get('email')?.valid && registerForm.get('email')?.touched">
+              <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="stacked">Email Address *</ion-label>
+              <ion-input
+                formControlName="email"
+                type="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                [clear-input]="true">
+              </ion-input>
+            </ion-item>
+            <div class="error-message" *ngIf="isFieldInvalid('email')">
+              <ion-text color="danger">
+                <small>{{ getFieldError('email') }}</small>
+              </ion-text>
+            </div>
+
+            <!-- Phone -->
+            <ion-item
+              lines="full"
+              [class.ion-invalid]="isFieldInvalid('phone')"
+              [class.ion-valid]="registerForm.get('phone')?.valid && registerForm.get('phone')?.touched">
+              <ion-icon name="call-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="stacked">Phone Number *</ion-label>
+              <ion-input
+                formControlName="phone"
+                type="tel"
+                placeholder="Enter your phone number"
+                autocomplete="tel"
+                [clear-input]="true">
+              </ion-input>
+            </ion-item>
+            <div class="error-message" *ngIf="isFieldInvalid('phone')">
+              <ion-text color="danger">
+                <small>{{ getFieldError('phone') }}</small>
+              </ion-text>
+            </div>
+          </div>
+
+          <!-- Security Section -->
+          <div class="form-section">
+            <h3>Account Security</h3>
+
+            <!-- Password -->
+            <ion-item
+              lines="full"
+              [class.ion-invalid]="isFieldInvalid('password')"
+              [class.ion-valid]="registerForm.get('password')?.valid && registerForm.get('password')?.touched">
+              <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="stacked">Password *</ion-label>
+              <ion-input
+                formControlName="password"
+                [type]="showPassword ? 'text' : 'password'"
+                placeholder="Create a strong password"
+                autocomplete="new-password">
+              </ion-input>
+              <ion-button
+                fill="clear"
+                slot="end"
+                (click)="togglePasswordVisibility()"
+                type="button">
+                <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <div class="error-message" *ngIf="isFieldInvalid('password')">
+              <ion-text color="danger">
+                <small>{{ getFieldError('password') }}</small>
+              </ion-text>
+            </div>
+
+            <!-- Confirm Password -->
+            <ion-item
+              lines="full"
+              [class.ion-invalid]="isFieldInvalid('confirmPassword')"
+              [class.ion-valid]="registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.touched && !registerForm.errors?.['passwordMismatch']">
+              <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="stacked">Confirm Password *</ion-label>
+              <ion-input
+                formControlName="confirmPassword"
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                placeholder="Confirm your password"
+                autocomplete="new-password">
+              </ion-input>
+              <ion-button
+                fill="clear"
+                slot="end"
+                (click)="toggleConfirmPasswordVisibility()"
+                type="button">
+                <ion-icon [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <div class="error-message" *ngIf="isFieldInvalid('confirmPassword')">
+              <ion-text color="danger">
+                <small>{{ getFieldError('confirmPassword') }}</small>
+              </ion-text>
+            </div>
+          </div>
+
+          <!-- Driver-Specific Section -->
+          <div class="form-section" *ngIf="selectedRole === 'driver'">
+            <h3>Driver Information</h3>
+
+            <!-- License Number -->
+            <ion-item
+              lines="full"
+              [class.ion-invalid]="isFieldInvalid('licenseNumber')"
+              [class.ion-valid]="registerForm.get('licenseNumber')?.valid && registerForm.get('licenseNumber')?.touched">
+              <ion-icon name="document-text-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="stacked">Driver's License Number *</ion-label>
+              <ion-input
+                formControlName="licenseNumber"
+                type="text"
+                placeholder="Enter your license number"
+                [clear-input]="true">
+              </ion-input>
+            </ion-item>
+            <div class="error-message" *ngIf="isFieldInvalid('licenseNumber')">
+              <ion-text color="danger">
+                <small>{{ getFieldError('licenseNumber') }}</small>
+              </ion-text>
+            </div>
+
+            <!-- Vehicle Type -->
+            <ion-item
+              lines="full"
+              [class.ion-invalid]="isFieldInvalid('vehicleType')"
+              [class.ion-valid]="registerForm.get('vehicleType')?.valid && registerForm.get('vehicleType')?.touched">
+              <ion-icon name="car-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="stacked">Vehicle Type *</ion-label>
+              <ion-select
+                formControlName="vehicleType"
+                placeholder="Select vehicle type"
+                interface="popover">
+                <ion-select-option
+                  *ngFor="let vehicle of vehicleTypes"
+                  [value]="vehicle.value">
+                  {{ vehicle.label }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div class="error-message" *ngIf="isFieldInvalid('vehicleType')">
+              <ion-text color="danger">
+                <small>{{ getFieldError('vehicleType') }}</small>
+              </ion-text>
+            </div>
+          </div>
+
+          <!-- Additional Information Section -->
+          <div class="form-section">
+            <h3>Additional Information</h3>
+
+            <!-- Emergency Contact -->
+            <ion-item lines="full">
+              <ion-icon name="call-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="stacked">Emergency Contact</ion-label>
+              <ion-input
+                formControlName="emergencyContact"
+                type="tel"
+                placeholder="Emergency contact number"
+                [clear-input]="true">
+              </ion-input>
+            </ion-item>
+
+            <!-- Medical Conditions -->
+            <ion-item lines="full" *ngIf="selectedRole === 'patient'">
+              <ion-icon name="medical-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="stacked">Medical Conditions/Allergies</ion-label>
+              <ion-textarea
+                formControlName="medicalConditions"
+                placeholder="List any medical conditions, allergies, or special requirements"
+                rows="3"
+                maxlength="500">
+              </ion-textarea>
+            </ion-item>
+          </div>
+
+          <!-- Terms and Conditions -->
+          <div class="terms-section">
+            <ion-item lines="none" class="terms-checkbox">
+              <ion-checkbox
+                [(ngModel)]="agreeToTerms"
+                [ngModelOptions]="{standalone: true}"
+                color="primary">
+              </ion-checkbox>
+              <ion-label class="ion-margin-start">
+                I agree to the
+                <ion-button
+                  fill="clear"
+                  size="small"
+                  (click)="showTermsOfService()"
+                  type="button">
+                  Terms of Service
+                </ion-button>
+                and
+                <ion-button
+                  fill="clear"
+                  size="small"
+                  (click)="showPrivacyPolicy()"
+                  type="button">
+                  Privacy Policy
+                </ion-button>
+              </ion-label>
+            </ion-item>
+
+            <div class="hipaa-notice" *ngIf="selectedRole === 'patient'">
+              <ion-text color="medium">
+                <p>
+                  <ion-icon name="shield-checkmark-outline"></ion-icon>
+                  Your medical information is protected under HIPAA regulations
+                </p>
+              </ion-text>
+            </div>
+          </div>
+
+          <!-- Register Button -->
+          <ion-button
+            expand="block"
+            type="submit"
+            [disabled]="isLoading"
+            class="register-button">
+            <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+            <span *ngIf="!isLoading">Create Account</span>
+            <span *ngIf="isLoading">Creating Account...</span>
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Login Link -->
+    <div class="login-link">
+      <ion-text color="medium">
+        <p>
+          Already have an account?
+          <ion-button
+            fill="clear"
+            size="small"
+            (click)="navigateToLogin()"
+            type="button">
+            Sign In
+          </ion-button>
+        </p>
+      </ion-text>
+    </div>
+  </div>
+</ion-content>

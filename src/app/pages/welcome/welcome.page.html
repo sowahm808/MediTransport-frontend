@@ -1,0 +1,94 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>MediTransport</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="welcome-content">
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>Safe & Reliable Medical Transportation</h1>
+      <p>Professional medical transportation services when you need them most.</p>
+
+      <div class="cta-buttons">
+        <ion-button expand="block" (click)="navigateToLogin()">
+          Login
+        </ion-button>
+        <ion-button expand="block" fill="outline" (click)="navigateToRegister()">
+          Get Started
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-section">
+    <h2>Why Choose MediTransport?</h2>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let feature of features">
+          <ion-card class="feature-card">
+            <ion-card-header>
+              <div class="feature-icon">
+                <ion-icon [name]="feature.icon" size="large"></ion-icon>
+              </div>
+              <ion-card-title>{{ feature.title }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{ feature.description }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="roles-section">
+    <h2>Join Us</h2>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="4">
+          <ion-card class="role-card">
+            <ion-card-header>
+              <ion-card-title>Patients</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>Book safe and reliable medical transportation with just a few taps.</p>
+              <ion-button expand="block" fill="outline" (click)="navigateToRegister()">
+                Book a Ride
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card class="role-card">
+            <ion-card-header>
+              <ion-card-title>Drivers</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>Join our team of professional medical transportation drivers.</p>
+              <ion-button expand="block" fill="outline" (click)="navigateToRegister()">
+                Become a Driver
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card class="role-card">
+            <ion-card-header>
+              <ion-card-title>Healthcare Facilities</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>Partner with us to provide reliable transportation for your patients.</p>
+              <ion-button expand="block" fill="outline" (click)="navigateToRegister()">
+                Partner With Us
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

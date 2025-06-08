@@ -1,0 +1,169 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Patient Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="dashboard-container">
+    <!-- Welcome Section -->
+    <ion-card class="welcome-card">
+      <ion-card-content>
+        <div class="welcome-content">
+          <div class="user-info">
+            <ion-avatar class="user-avatar">
+              <img alt="User avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            </ion-avatar>
+            <div class="user-details">
+              <h2>Welcome back, {{ currentUser?.name }}</h2>
+              <p>Let's get you safely to your destination</p>
+            </div>
+          </div>
+          <ion-badge color="success" *ngIf="currentUser?.role === 'patient'">Patient</ion-badge>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Quick Actions -->
+    <ion-card class="quick-actions-card">
+      <ion-card-header>
+        <ion-card-title>Quick Actions</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button
+                expand="block"
+                fill="solid"
+                color="primary"
+                (click)="bookNewRide()"
+                class="action-button">
+                <ion-icon name="add-outline" slot="start"></ion-icon>
+                Book Ride
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button
+                expand="block"
+                fill="outline"
+                color="primary"
+                (click)="viewRideHistory()"
+                class="action-button">
+                <ion-icon name="time-outline" slot="start"></ion-icon>
+                History
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button
+                expand="block"
+                fill="outline"
+                color="secondary"
+                (click)="viewPaymentHistory()"
+                class="action-button">
+                <ion-icon name="card-outline" slot="start"></ion-icon>
+                Payments
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button
+                expand="block"
+                fill="outline"
+                color="tertiary"
+                (click)="viewProfile()"
+                class="action-button">
+                <ion-icon name="person-outline" slot="start"></ion-icon>
+                Profile
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Upcoming Rides -->
+    <ion-card class="rides-card" *ngIf="upcomingRides.length > 0">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="calendar-outline"></ion-icon>
+          Upcoming Rides
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list *ngFor="let ride of upcomingRides">
+          <ion-item class="ride-item">
+            <ion-icon name="car-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>{{ formatDate(ride.date) }} at {{ ride.time }}</h3>
+              <p>
+                <ion-icon name="location-outline"></ion-icon>
+                {{ ride.from }} → {{ ride.to }}
+              </p>
+              <p class="driver-info" *ngIf="ride.driver">
+                Driver: {{ ride.driver }}
+              </p>
+            </ion-label>
+            <ion-chip [color]="getStatusColor(ride.status)" slot="end">
+              {{ ride.status | titlecase }}
+            </ion-chip>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recent Rides -->
+    <ion-card class="rides-card" *ngIf="recentRides.length > 0">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="time-outline"></ion-icon>
+          Recent Rides
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list *ngFor="let ride of recentRides">
+          <ion-item class="ride-item">
+            <ion-icon name="car-outline" slot="start" color="medium"></ion-icon>
+            <ion-label>
+              <h3>{{ formatDate(ride.date) }} at {{ ride.time }}</h3>
+              <p>
+                <ion-icon name="location-outline"></ion-icon>
+                {{ ride.from }} → {{ ride.to }}
+              </p>
+              <p class="fare-info" *ngIf="ride.fare">
+                Fare: ${{ ride.fare.toFixed(2) }}
+              </p>
+            </ion-label>
+            <ion-chip [color]="getStatusColor(ride.status)" slot="end">
+              {{ ride.status | titlecase }}
+            </ion-chip>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Empty State -->
+    <ion-card class="empty-state-card" *ngIf="upcomingRides.length === 0 && recentRides.length === 0">
+      <ion-card-content class="ion-text-center">
+        <ion-icon name="car-outline" size="large" color="medium"></ion-icon>
+        <h2>No rides yet</h2>
+        <p>Start by booking your first medical transportation ride</p>
+        <ion-button
+          fill="solid"
+          color="primary"
+          (click)="bookNewRide()">
+          <ion-icon name="add-outline" slot="start"></ion-icon>
+          Book Your First Ride
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Floating Action Button -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button color="primary" (click)="bookNewRide()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
