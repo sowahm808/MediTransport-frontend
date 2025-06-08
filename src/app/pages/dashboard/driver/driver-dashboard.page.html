@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Driver Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="dashboard-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Welcome, {{ currentUser?.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Driver dashboard is under development. You'll be able to:</p>
+        <ul>
+          <li>View assigned rides</li>
+          <li>Update availability status</li>
+          <li>Track earnings</li>
+          <li>Manage vehicle information</li>
+        </ul>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

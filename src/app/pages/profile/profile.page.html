@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="profile-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>User Profile</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Name:</strong> {{ currentUser?.name }}</p>
+        <p><strong>Email:</strong> {{ currentUser?.email }}</p>
+        <p><strong>Role:</strong> {{ currentUser?.role | titlecase }}</p>
+        <p>Profile management features coming soon!</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Admin Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="dashboard-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Welcome, {{ currentUser?.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Admin dashboard is under development. You'll be able to:</p>
+        <ul>
+          <li>Manage users and drivers</li>
+          <li>Monitor system analytics</li>
+          <li>Handle ride assignments</li>
+          <li>View financial reports</li>
+          <li>System configuration</li>
+        </ul>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
